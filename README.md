@@ -13,7 +13,7 @@ curl -H "Content-type:application/json" --data '{"data" : "Primeiro Bloco"}' htt
 curl -H "Content-type:application/json" --data '{"peer" : "ws://localhost:6001"}' http://localhost:3001/addPeer
 ```
 
-##### Listar blockchain blockchain
+##### Listar blockchain 
 ```
 curl http://localhost:3001/blocks
 ```
