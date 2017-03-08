@@ -4,6 +4,8 @@ var express = require("express");
 var bodyParser = require('body-parser');
 var WebSocket = require("ws");
 
+var fs = require('fs');
+
 var http_port = process.env.HTTP_PORT || 3001;
 var p2p_port = process.env.P2P_PORT || 6001;
 var initialPeers = process.env.PEERS ? process.env.PEERS.split(',') : [];
@@ -12,6 +14,15 @@ var nPeers = 1;         //numero de conexoes que ele suporta
 var aux1 = 0;
 
 //Bloco
+
+//lendo valores de arquivo.
+//endereço
+//var leArquivo = fs.readFileSync('/Users/Portal/Desktop/docTeste.txt', 'ascii');
+
+//var arq = leArquivo;
+
+//console.log(arq);
+
 
 class Block {
     constructor(index, previousHash, timestamp, data, hash) {
@@ -36,6 +47,7 @@ var MessageType = {
 
 var getGenesisBlock = () => {
     return new Block(0, "0", 1465154705, "my genesis block!!", "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7");
+    //return new Block(0, "0", 1465154705, arq, "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7");
 };
 
 //colocando genesis na blockchain
@@ -68,6 +80,7 @@ var initHttpServer = () => {
 
     app.post('/mineBlock', (req, res) => {
         var newBlock = generateNextBlock(req.body.data);
+        //var newBlock = generateNextBlock(leArquivo);
         addBlock(newBlock);
         broadcast(responseLatestMsg());
         console.log('bloco adicionado:\nindice: ' + newBlock.index +'\nhash anterior: '+newBlock.previousHash+'\nTimestamp: '+newBlock.timestamp+'\ndata: '+newBlock.data+'\nhash: '+newBlock.hash+'\n');
@@ -288,10 +301,6 @@ var buscaBloco = (block) => {
 	}
 	return false;
 }
-
-
-
-
 
 
 var getLatestBlock = () => blockchain[blockchain.length - 1];
